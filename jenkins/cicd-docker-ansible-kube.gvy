@@ -4,7 +4,7 @@ stages {
     stage('compile') {
 	    steps { 
 		    echo 'compiling..'
-		    git url: 'https://github.com/lerndevops/samplejavaapp'
+		    git url: 'https://github.com/Sarthak221198/samplejavaapp'
 		    sh script: '/opt/maven/bin/mvn compile'
 	    }
     }
@@ -39,16 +39,16 @@ stages {
     stage('build & push docker image') {
 	    steps {
 		    sh 'cd $WORKSPACE'
-		    sh 'docker build --file Dockerfile --tag lerndevops/samplejavaapp:$BUILD_NUMBER .'
+		    sh 'docker build --file Dockerfile --tag sarthak2211/samplejavaapp:$BUILD_NUMBER .'
 		    withCredentials([string(credentialsId: 'DOCKER_HUB_PWD', variable: 'DOCKER_HUB_PWD')]) {
-			    sh "docker login -u lerndevops -p ${DOCKER_HUB_PWD}"
+			    sh "docker login -u sarthak2211 -p ${DOCKER_HUB_PWD}"
 		    }
-		    sh 'docker push lerndevops/samplejavaapp:$BUILD_NUMBER'
+		    sh 'docker push sarthak2211/samplejavaapp:$BUILD_NUMBER'
 	    }
     }
     stage('Deploy-QA') {
 	    steps {
-		    sh 'ansible-playbook --inventory /tmp/myinv deploy/deploy-kube.yml --extra-vars "env=qa build=$BUILD_NUMBER"'
+		    sh 'ansible-playbook --inventory hosts deploy/deploy-kube.yml --extra-vars "env=qa build=$BUILD_NUMBER"'
 	    }
     }
 }
