@@ -40,8 +40,8 @@ stages {
 	    steps {
 		    sh 'cd $WORKSPACE'
 		    sh 'docker build --file Dockerfile --tag sarthak2211/samplejavaapp:$BUILD_NUMBER .'
-		    withCredentials([string(credentialsId: 'DOCKER_HUB_PWD', variable: 'DOCKER_HUB_PWD')]) {
-			    sh "docker login -u sarthak2211 -p ${DOCKER_HUB_PWD}"
+		    withCredentials([string(credentialsId: 'DOCKER_IMAGE_NAME', variable: 'DOCKER_IMAGE_NAME')]) {
+			    sh "docker login -u sarthak2211 -p ${DOCKER_IMAGE_NAME}"
 		    }
 		    sh 'docker push sarthak2211/samplejavaapp:$BUILD_NUMBER'
 	    }
